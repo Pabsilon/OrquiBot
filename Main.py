@@ -1,5 +1,7 @@
 from telegram.ext import Updater, CommandHandler
+from Modules import Help
 import Config
+import os
 
 #Pont was here and didn't want to touch anything more
 def start(bot, update):
@@ -21,6 +23,7 @@ updater = Updater(Config.API_TOKEN)
 
 updater.dispatcher.add_handler(CommandHandler('start', start))
 updater.dispatcher.add_handler(CommandHandler('hello', hello))
+updater.dispatcher.add_handler(CommandHandler('help', Help.help))
 
 updater.start_polling()
 updater.idle()

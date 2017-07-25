@@ -1,3 +1,5 @@
 /.idea/
 Config.py
 *.pyproj
+*/__pycache__/
+/__pycache__/
