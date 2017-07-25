@@ -1,7 +1,7 @@
 from telegram.ext import Updater, CommandHandler
 import Config
 
-#Pont was here and didn't want to touch anything
+#Pont was here and didn't want to touch anything more
 def start(bot, update):
     update.message.reply_text('Hello Wolrd!')
 
