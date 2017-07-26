@@ -20,7 +20,7 @@ updater = Updater(Config.API_TOKEN)
 updater.dispatcher.add_handler(CommandHandler('start', Server.start))
 updater.dispatcher.add_handler(CommandHandler('hello', Hello.hello))
 updater.dispatcher.add_handler(CommandHandler('help', Help.help))
-updater.dispatcher.add_handler(CommandHandler('Server',Server.handler))
+updater.dispatcher.add_handler(CommandHandler('Server',Server.handler, pass_args=True))
 
 updater.start_polling()
 updater.idle()
