@@ -9,9 +9,17 @@ def adminLogIn(bot, update, args):
             tree = ET.parse(XML_PATH)
             root = tree.getroot()
             root = root[2]
+            exists = False
             for child in root:
                 if args[0] == child.get('Name'):
-                    update.message.reply_text(child.attrib)
+                    exists = True
+                    options = child[2]
+                    if options.text == 'SuperUsers':
+                        update.message.reply_text('Yay')
+                    else:
+                        update.message.reply_text('Wait a second! You\' re not an admin!')
+            if not exists:
+                update.message.reply_text('I don\'t know anyone with that name...')
         else:
             update.message.reply_text('File not Open!')
 
