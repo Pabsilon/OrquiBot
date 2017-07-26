@@ -1,5 +1,8 @@
 /.idea/
 Config.py
-*.pyproj
+*.pyproj*
 */__pycache__/
 /__pycache__/
+/.vs/
+*.sln
+/env/
