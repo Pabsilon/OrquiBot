@@ -3,3 +3,7 @@ Config.py
 *.pyproj
 */__pycache__/
 /__pycache__/
+/.vs/
+/env/
+*.pyproj*
+*.sln
