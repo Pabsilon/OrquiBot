@@ -6,3 +6,5 @@ Config.py
 /.vs/
 *.sln
 /env/
+*.pyproj*
+*.sln

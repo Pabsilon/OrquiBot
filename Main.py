@@ -1,5 +1,5 @@
 from telegram.ext import Updater, CommandHandler
-from Modules import Help
+from Modules import Help, Hello
 import Config
 import os
 
@@ -7,9 +7,6 @@ import os
 def start(bot, update):
     update.message.reply_text('Hello Wolrd!')
 
-def hello(bot, update):
-    update.message.reply_text(
-        'Hello {}'.format(update.message.from_user.first_name))
 
 def isItOn(bot, update):
     response = os.system("ping -c 1 " + Config.HOST_NAME)
@@ -22,7 +19,7 @@ def isItOn(bot, update):
 updater = Updater(Config.API_TOKEN)
 
 updater.dispatcher.add_handler(CommandHandler('start', start))
-updater.dispatcher.add_handler(CommandHandler('hello', hello))
+updater.dispatcher.add_handler(CommandHandler('hello', Hello.hello))
 updater.dispatcher.add_handler(CommandHandler('help', Help.help))
 
 updater.start_polling()
