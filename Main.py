@@ -1,11 +1,10 @@
 from telegram.ext import Updater, CommandHandler
-from Modules import Help, Hello
+from Modules import Help, Hello, Server
 import Config
 import os
 
 #Pont was here and didn't want to touch anything more
-def start(bot, update):
-    update.message.reply_text('Hello Wolrd!')
+
 
 
 def isItOn(bot, update):
@@ -18,9 +17,10 @@ def isItOn(bot, update):
 
 updater = Updater(Config.API_TOKEN)
 
-updater.dispatcher.add_handler(CommandHandler('start', start))
+updater.dispatcher.add_handler(CommandHandler('start', Server.start))
 updater.dispatcher.add_handler(CommandHandler('hello', Hello.hello))
 updater.dispatcher.add_handler(CommandHandler('help', Help.help))
+updater.dispatcher.add_handler(CommandHandler('Server',Server.handler))
 
 updater.start_polling()
 updater.idle()
