@@ -1,5 +1,5 @@
 from telegram.ext import Updater, CommandHandler
-from Modules import Help, Hello
+from Modules import Help, Hello, FileZilla
 import Config
 import os
 
@@ -21,6 +21,8 @@ updater = Updater(Config.API_TOKEN)
 updater.dispatcher.add_handler(CommandHandler('start', start))
 updater.dispatcher.add_handler(CommandHandler('hello', Hello.hello))
 updater.dispatcher.add_handler(CommandHandler('help', Help.help))
+updater.dispatcher.add_handler(CommandHandler('status', isItOn))
+updater.dispatcher.add_handler(CommandHandler('adminLogIn', FileZilla.adminLogIn, pass_args=True,))
 
 updater.start_polling()
 updater.idle()
