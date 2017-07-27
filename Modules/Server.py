@@ -1,6 +1,12 @@
 #status reboot distress
 import Config, requests
 
+
+def sendMessage(fromWho,toWho,message):
+    #Sends a message from a bot (fromWho) to a person (a chat the bot is in)
+    url="http://api.telegram.org/bot"+fromWho+"/sendMessage?chat_id="+toWho+"&text="+message
+    requests.get(url)
+
 def start(bot, update,args):
     update.message.reply_text('Hello Wolrd!')
 
@@ -9,16 +15,14 @@ def status(bot,update,args):
     update.message.reply_text('I\'m still here')
 
 def distress(bot,update,args):
-    #   update.message.reply_text('If you want to contact the admins text to @SeñorPont')
-    message = "help, I'm "+update.message.from_user.first_name
+    #   update.message.reply_text('If you want to contact the admins text to @Seï¿½orPont')
     if(len(args)>1):
         length = len(args)
         message=message+" and :"
         call=args[2,length-1]
         for x in call:
             message= message +x+" "
-    print ("message: "+message)
-    url=str("http://"+"api.telegram.org/bot"+Config.API_TOKEN+"/sendMessage?chat_id="+Config.DISTRESS_CHAT+"&text="+message)
+    sendMessage(Config.API_TOKEN,Config.DISTRESS_CHAT,message)
     print(url)
     requests.get(url)
 
