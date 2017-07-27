@@ -1,5 +1,7 @@
 from xml.etree import ElementTree as ET
 from Config import XML_PATH,LOGGED_ADMINS, LOGGED_USERS
+from random import choice
+import hashlib
 
 def adminLogIn(bot, update, args):
     #Allows an admin from the ftp to log in.
@@ -44,3 +46,19 @@ def logOut(bot,update):
             update.message.reply_text('Wait a second... You weren\'t event logged in!')
             return
     update.message.reply_text('Bye bye, '+user)
+
+
+def createUser(bot,update,args):
+
+
+def generateHashedPass(pwd, salt):
+    return hashlib.sha512(pwd+salt).hexdigest()
+
+
+def generateSalt():
+    alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    chars = []
+    for i in range(64):
+        chars.append(choice(alphabet))
+    "".join(chars)
+    return chars
