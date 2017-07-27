@@ -7,9 +7,9 @@ def adminLogIn(bot, update, args):
     try:
         user = args[0]
         if LOGGED_ADMINS.get(update.message.from_user.username):
-            update.message.reply_text('You\'re already logged in as ' + LOGGED_ADMINS.get(update.message.from_user.username))
+            update.message.reply_text('You\'re already logged in as ' + list(LOGGED_ADMINS.get(update.message.from_user.username))[1])
         elif LOGGED_USERS.get(update.message.from_user.username):
-            update.message.reply_text('You\'re already logged in as ' + LOGGED_USERS.get(update.message.from_user.username))
+            update.message.reply_text('You\'re already logged in as ' + list(LOGGED_USERS.get(update.message.from_user.username))[1])
         elif user:
             tree = ET.parse(XML_PATH)
             root = tree.getroot()
@@ -20,10 +20,10 @@ def adminLogIn(bot, update, args):
                     exists = True
                     options = child[2]
                     if options.text in ADMIN_GROUP:
-                        LOGGED_ADMINS[update.message.from_user.username]=args[0]
+                        LOGGED_ADMINS[update.message.from_user.username]={args[0],update.message.chat_id}
                         update.message.reply_text('Welcome, Admin: ' + args[0] + ' logged as ' + update.message.from_user.username)
                     elif options.text in USERS_GROUP:
-                        LOGGED_USERS[update.message.from_user.username] = args[0]
+                        LOGGED_USERS[update.message.from_user.username] = {args[0],update.message.chat_id}
                         update.message.reply_text('Yay! ' + args[0] + ' logged as ' + update.message.from_user.username)
 
             if not exists:
@@ -46,7 +46,3 @@ def logOut(bot,update):
             return
     update.message.reply_text('Bye bye, '+user)
 
-def addUser(bot,update,args):
-    if len(args) > 2 or len(args) < 1:
-        update.message.reply_text('Wrong ammount of parameters')
-    else:
