@@ -12,3 +12,4 @@ elif socket.gethostname() in[ 'Zarya'or 'OptimusPrime']: #El ordenador de pont
 
 ADMIN_GROUP = 'SuperUsers'
 USERS_GROUP = 'Users', 'SubAdmin'
+DISTRESS_CHAT = '286257058'
