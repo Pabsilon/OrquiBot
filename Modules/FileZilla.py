@@ -1,8 +1,6 @@
 from xml.etree import ElementTree as ET
 from Config import XML_PATH, ADMIN_GROUP, USERS_GROUP
 from Modules.Users import LOGGED_ADMINS, LOGGED_USERS
-from random import choice
-import hashlib
 
 def adminLogIn(bot, update, args):
     #Allows an admin from the ftp to log in.
@@ -47,3 +45,8 @@ def logOut(bot,update):
             update.message.reply_text('Wait a second... You weren\'t event logged in!')
             return
     update.message.reply_text('Bye bye, '+user)
+
+def addUser(bot,update,args):
+    if len(args) > 2 or len(args) < 1:
+        update.message.reply_text('Wrong ammount of parameters')
+    else:
