@@ -1,35 +1,40 @@
 #status reboot distress
-import Config, requests
+import Config,Utils
+import requests
 
 def start(bot, update,args):
     update.message.reply_text('Hello Wolrd!')
 
 def status(bot,update,args):
     #status should check if diferent services are up or down
-    update.message.reply_text('I\'m still here')
+    update.message.reply_text    ('Orquibot   [ ON]')
+    torrent=str("http://"+Config.HOST_NAME+":8080")
+    response=requests.get(torrent)
+    if (str(response.status_code) == '200'):
+        update.message.reply_text("Torrent    [ ON]")
+    else:
+        update.message.reply_text("Torrent    [OFF]")
+    update.message.reply_text("Nothong more")
 
-def distress(bot,update,args):
-    #   update.message.reply_text('If you want to contact the admins text to @SeñorPont')
-    message = "help, I'm "+update.message.from_user.first_name
+def distress(bot,update,args): 
+    message = "Help, I'm "+ update.message.from_user.first_name
     if(len(args)>1):
         length = len(args)
-        message=message+" and :"
-        call=args[2,length-1]
+        message=message+" and : "
+        call=args[1:len(args)]
         for x in call:
             message= message +x+" "
-    print ("message: "+message)
-    url=str("http://"+"api.telegram.org/bot"+Config.API_TOKEN+"/sendMessage?chat_id="+Config.DISTRESS_CHAT+"&text="+message)
-    print(url)
-    requests.get(url)
-
+    Utils.sendMessage(Config.API_TOKEN,Config.DISTRESS_CHAT,message)
+    update.message.reply_text("Espera: Tengo el telefono del que sabe, un momento")
+    
 
 
 def help(bot,update,args):
     update.message.reply_text("/Server manages the server, you can:\n"+
-                              "server start ---> to let the bot know you are there\n"+
-                              "server status --> to know what services are up\n"+
-                              "server help ----> to print this help\n"+
-                              "server distress > to give us a call")
+                              "server start --------------> to let the bot know you are there\n"+
+                              "server status -------------> to know what services are up\n"+
+                              "server help ---------------> to print this help\n"+
+                              "server distress {mensaje} -> to give us a call")
 
 def handler(bot,update,args):
     print("server called with ",end=' ')
