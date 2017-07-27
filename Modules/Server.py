@@ -1,12 +1,20 @@
 #status reboot distress
 import Config,Utils
+import requests
 
 def start(bot, update,args):
     update.message.reply_text('Hello Wolrd!')
 
 def status(bot,update,args):
     #status should check if diferent services are up or down
-    update.message.reply_text('I\'m still here')
+    update.message.reply_text    ('Orquibot   [ ON]')
+    torrent=str("http://"+Config.HOST_NAME+":8080")
+    response=requests.get(torrent)
+    if (str(response.status_code) == '200'):
+        update.message.reply_text("Torrent    [ ON]")
+    else:
+        update.message.reply_text("Torrent    [OFF]")
+    update.message.reply_text("Nothong more")
 
 def distress(bot,update,args): 
     message = "Help, I'm "+ update.message.from_user.first_name
@@ -18,7 +26,7 @@ def distress(bot,update,args):
             message= message +x+" "
     Utils.sendMessage(Config.API_TOKEN,Config.DISTRESS_CHAT,message)
     update.message.reply_text("Espera: Tengo el telefono del que sabe, un momento")
-
+    
 
 
 def help(bot,update,args):
