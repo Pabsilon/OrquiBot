@@ -1,5 +1,6 @@
 from xml.etree import ElementTree as ET
-from Config import XML_PATH,LOGGED_ADMINS, LOGGED_USERS
+from Config import XML_PATH, ADMIN_GROUP, USERS_GROUP
+from Modules.Users import LOGGED_ADMINS, LOGGED_USERS
 from random import choice
 import hashlib
 
@@ -20,10 +21,10 @@ def adminLogIn(bot, update, args):
                 if args[0] == child.get('Name'):
                     exists = True
                     options = child[2]
-                    if options.text == 'SuperUsers':
+                    if options.text in ADMIN_GROUP:
                         LOGGED_ADMINS[update.message.from_user.username]=args[0]
                         update.message.reply_text('Welcome, Admin: ' + args[0] + ' logged as ' + update.message.from_user.username)
-                    elif options.text == 'Users' or 'SubAdmins':
+                    elif options.text in USERS_GROUP:
                         LOGGED_USERS[update.message.from_user.username] = args[0]
                         update.message.reply_text('Yay! ' + args[0] + ' logged as ' + update.message.from_user.username)
 
@@ -46,19 +47,3 @@ def logOut(bot,update):
             update.message.reply_text('Wait a second... You weren\'t event logged in!')
             return
     update.message.reply_text('Bye bye, '+user)
-
-
-def createUser(bot,update,args):
-
-
-def generateHashedPass(pwd, salt):
-    return hashlib.sha512(pwd+salt).hexdigest()
-
-
-def generateSalt():
-    alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    chars = []
-    for i in range(64):
-        chars.append(choice(alphabet))
-    "".join(chars)
-    return chars
