@@ -22,7 +22,6 @@ updater.dispatcher.add_handler(CommandHandler('status', isItOn))
 updater.dispatcher.add_handler(CommandHandler('logIn', FileZilla.adminLogIn, pass_args=True,))
 updater.dispatcher.add_handler(CommandHandler('logOut', FileZilla.logOut))
 updater.dispatcher.add_handler(CommandHandler('Server', Server.handler, pass_args=True))
-updater.dispatcher.add_handler(CommandHandler('test',Utilities.sendMessage, pass_args=True))
 
 updater.start_polling()
 updater.idle()
