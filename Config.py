@@ -15,3 +15,5 @@ if socket.gethostname() == 'Server':
 
 ADMIN_GROUP = 'SuperUsers'
 USERS_GROUP = 'Users', 'SubAdmin'
+
+DISTRESS_CHAT = '286257058'
