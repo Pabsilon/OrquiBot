@@ -16,26 +16,26 @@ def start(bot, update,args):
 
 def status(bot,update,args):
     #status should check if diferent services are up or down
-    update.message.reply_text    ('Orquibot   [ ON]')
+    update.message.reply_text    ('⚙️Orquibot   ✅')
 
     #Torrent
     sock =socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     torrent=sock.connect_ex((str(Config.HOST_NAME),8080))
     if (torrent == 0):
-        update.message.reply_text("Torrent    [ ON]")
+        update.message.reply_text("⛵️Torrent    ✅")
     else:
-        update.message.reply_text("Torrent    [OFF]")
+        update.message.reply_text("⛵️Torrent    ❌")
 
     #SSH    
     sock =socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     ssh=sock.connect_ex((str(Config.HOST_NAME),22022))
     if (ssh == 0):
-        update.message.reply_text("ssh        [ ON]")
+        update.message.reply_text("🔌ssh        ✅")
     else:
-        update.message.reply_text("ssh        [OFF]")
+        update.message.reply_text("🔌ssh        ❌")
 
 
-    update.message.reply_text("Nothong more")
+    update.message.reply_text("🚧Nothong more🚧")
 
 def distress(bot,update,args): 
     message = "Help, I'm "+ update.message.from_user.first_name
