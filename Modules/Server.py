@@ -35,7 +35,7 @@ def status(bot,update,args):
         update.message.reply_text("🔌ssh        ❌")
 
 
-    update.message.reply_text("🚧Nothong more🚧")
+    update.message.reply_text("🚧Nothing more🚧")
 
 def distress(bot,update,args): 
     message = "Help, I'm "+ update.message.from_user.first_name
@@ -46,7 +46,7 @@ def distress(bot,update,args):
         for x in call:
             message= message +x+" "
     Utils.sendMessage(Config.API_TOKEN,Config.DISTRESS_CHAT,message)
-    update.message.reply_text("Espera: Tengo el telefono del que sabe, un momento")
+    update.message.reply_text("Espera: Tengo el telefono ☎️ del que sabe, un momento")
     
 def HStatus(bot,update,args):
     update.message.reply_text("Checking computer status")
@@ -55,15 +55,15 @@ def HStatus(bot,update,args):
     ram_all=sizeof_fmt(psutil.virtual_memory().total,'B')
     cpu_temp=-273.3#psutil.sensors_temperatures()
 
-    text=("currently cpu ussage is at "+str(cpu_ussage)+"% running at "+str(cpu_temp)+"º\n"+
-    "Ram ussage is at "+ram_curr+"/"+ram_all+"")
+    text=("💻Cpu ussage is at "+str(cpu_ussage)+"% running at "+str(cpu_temp)+"º🌡"+
+    "\n🐏Ram ussage is at "+ram_curr+"/"+ram_all+"")
     if(psutil.sensors_battery!=None):
-        text=text+"\nThere is no battery detected"
+        text=text+"\n🔌There is no battery detected"
     else:
         battery_cur=psutil.sensors_battery().percent
         plugged=psutil.sensors_battery().power_plugged
-        text=text+"\nbattery is at "+battery_cur+"%"
-        if plugged:text=text+" and is plugged"
+        text=text+"\n🔋battery is at "+battery_cur+"%"
+        if plugged:text=text+" and is plugged 🔌"
         else:text=text+"and is not plugged"
     update.message.reply_text(text)
 
