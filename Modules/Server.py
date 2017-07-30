@@ -5,6 +5,7 @@ import psutil
 
 
 def sizeof_fmt(num, suffix='B'):
+    #basic function to display human ready numbers
     for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
         if abs(num) < 1024.0:
             return "%3.1f%s%s" % (num, unit, suffix)
@@ -12,10 +13,16 @@ def sizeof_fmt(num, suffix='B'):
     return "%.1f%s%s" % (num, 'Yi', suffix)
 
 def start(bot, update,args):
+    #now it's a place holder, eventually should start basic services like open hardware monitor
+     and its own server startup batch job
     update.message.reply_text('Hello Wolrd!')
 
 def status(bot,update,args):
     #status should check if diferent services are up or down
+    #eventually it should call torrent.up() and every module should know how to 
+    #check itself. some exceptions are orquibot witch cheks himself by executing and
+    #ssh witch wont have a module and will be managed by /server. It is checkede waiting
+    #for a tcp open port at the correct place, if it is something else it will do false positive
     update.message.reply_text    ('⚙️Orquibot   ✅')
 
     #Torrent
@@ -36,19 +43,10 @@ def status(bot,update,args):
 
 
     update.message.reply_text("🚧Nothing more🚧")
-
-def distress(bot,update,args): 
-    message = "Help, I'm "+ update.message.from_user.first_name
-    if(len(args)>1):
-        length = len(args)
-        message=message+" and : "
-        call=args[1:len(args)]
-        for x in call:
-            message= message +x+" "
-    Utils.sendMessage(Config.API_TOKEN,Config.DISTRESS_CHAT,message)
-    update.message.reply_text("Espera: Tengo el telefono ☎️ del que sabe, un momento")
     
 def HStatus(bot,update,args):
+    #if status checks software hstatus checks hardware and system like resource management
+    #and temperature(not now, but it will)
     update.message.reply_text("Checking computer status")
     cpu_ussage=psutil.cpu_percent()
     ram_curr=sizeof_fmt(psutil.virtual_memory().used,'B')
@@ -69,7 +67,22 @@ def HStatus(bot,update,args):
 
 
 
+def distress(bot,update,args): 
+    #This is the bat signal, anything beyond /server distress will be sent to the distress
+    #chat
+    message = "Help, I'm "+ update.message.from_user.first_name
+    if(len(args)>1):
+        length = len(args)
+        message=message+" and : "
+        call=args[1:len(args)]
+        for x in call:
+            message= message +x+" "
+    Utils.sendMessage(Config.API_TOKEN,Config.DISTRESS_CHAT,message)
+    update.message.reply_text("Espera: Tengo el telefono ☎️ del que sabe, un momento")
+    
 def help(bot,update,args):
+    #basic help for all the commands supported, eventually it should tell users apart
+    #and display more or less commands
     update.message.reply_text("/Server manages the server, you can:\n"+
                               "server start --------------> to let the bot know you are there\n"+
                               "server status -------------> to know what services are up\n"+
@@ -78,6 +91,7 @@ def help(bot,update,args):
                               "server distress {mensaje} -> to give us a call")
 
 def handler(bot,update,args):
+    #catch-up process to dispatch commands
     print("server called with ",end=' ')
     for arg in args:
         print(arg,  end=' ')
