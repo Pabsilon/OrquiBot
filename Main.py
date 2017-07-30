@@ -1,5 +1,5 @@
 from telegram.ext import Updater, CommandHandler
-from Modules import Help, Hello, FileZilla, Server,Utilities
+from Modules import Help, Hello, FileZilla, Server,Utilities, Ana
 import Config
 import os
 
@@ -22,6 +22,9 @@ updater.dispatcher.add_handler(CommandHandler('status', isItOn))
 updater.dispatcher.add_handler(CommandHandler('logIn', FileZilla.adminLogIn, pass_args=True,))
 updater.dispatcher.add_handler(CommandHandler('logOut', FileZilla.logOut))
 updater.dispatcher.add_handler(CommandHandler('Server', Server.handler, pass_args=True))
+updater.dispatcher.add_handler(CommandHandler('Porn',Ana.porn))
+updater.dispatcher.add_handler(CommandHandler('boobs',Ana.boobs))
+
 
 updater.start_polling()
 updater.idle()
