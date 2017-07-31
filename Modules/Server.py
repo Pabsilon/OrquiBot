@@ -14,7 +14,7 @@ def sizeof_fmt(num, suffix='B'):
 
 def start(bot, update,args):
     #now it's a place holder, eventually should start basic services like open hardware monitor
-     and its own server startup batch job
+    #and its own server startup batch job
     update.message.reply_text('Hello Wolrd!')
 
 def status(bot,update,args):
