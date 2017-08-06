@@ -13,8 +13,11 @@ def isItOn(bot, update):
     else:
         update.message.reply_text('Server is up!')
 
+debug=True
+if(debug):print("setting updater")
 updater = Updater(Config.API_TOKEN)
 
+if(debug):print("Setting handlers")
 updater.dispatcher.add_handler(CommandHandler('start', Server.start))
 updater.dispatcher.add_handler(CommandHandler('hello', Hello.hello))
 updater.dispatcher.add_handler(CommandHandler('help', Help.help))
@@ -26,5 +29,8 @@ updater.dispatcher.add_handler(CommandHandler('Porn',Ana.porn))
 updater.dispatcher.add_handler(CommandHandler('boobs',Ana.boobs))
 
 
+if(debug):print("starting polling")
 updater.start_polling()
+
+if(debug):print("Idling")
 updater.idle()

@@ -55,14 +55,14 @@ def HStatus(bot,update,args):
 
     text=("💻Cpu ussage is at "+str(cpu_ussage)+"% running at "+str(cpu_temp)+"º🌡"+
     "\n🐏Ram ussage is at "+ram_curr+"/"+ram_all+"")
-    if(psutil.sensors_battery!=None):
-        text=text+"\n🔌There is no battery detected"
+    if(psutil.sensors_battery==None):
+        text+="\n🔌There is no battery detected"
     else:
         battery_cur=psutil.sensors_battery().percent
         plugged=psutil.sensors_battery().power_plugged
-        text=text+"\n🔋battery is at "+battery_cur+"%"
-        if plugged:text=text+" and is plugged 🔌"
-        else:text=text+"and is not plugged"
+        text+=str("\n🔋battery is at "+str(battery_cur)+"%")
+        if plugged:text+=" and is plugged 🔌"
+        else:text+=" and is not plugged"
     update.message.reply_text(text)
 
 
