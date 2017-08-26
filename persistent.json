@@ -1,0 +1,42 @@
+{
+	"Config":{
+		"help":"Config stores and manages internal server configuration",
+		"Presets":{
+			"Default":{
+				"HOST_NAME":"orquishare.orquimed.es",
+				"DISTRESS_CHAT":"286257058",
+				"AdminGroup":["SuperUsers"],
+				"UsersGroup":["Users","SubAdmin"],
+				"XML_PATH":"",
+				"API_TOKEN":""
+			},
+			"Mac":{
+				"machines":["DESKTOP-1E39VB7", "ALPHA"],
+				"Robot":"OrquiTestBot",
+				"XML_PATH":"c:\\Users\\Pabs\\Desktop\\FileZilla Server.xml"
+			},
+			"Pont":{
+				"machines":["Zarya","OptimusPrime"],
+				"Robot":"NotOrquiBot",
+				"XML_PATH":"c:\\Users\\pablo\\Documents\\FileZilla Server.xml"
+			},
+			"Deploy":{
+				"machines":[],
+				"Robot":"OrquiBot",
+				"XML_PATH":"c:\\Hosted\\FileZilla Server\\FileZilla Server.xml"
+			}
+		},
+		"Tokens":{
+			"OrquiTestBot":"350174683:AAFL4yesbHgQxOhI_5LybVZV8akQIycyVuw",
+			"NotOrquiBot":"436440922:AAGUFL-tiwt3g7dmX8Z7S10URD2QDwJJupU",
+			"OrquiBot":"376202632:AAHFi16Wc37p1VY_mJseP5S1zdy0xw5cncU"
+		}
+	},
+	"Server":{
+		"help":"/Server manages the server, you can:\nserver start --------------> to let the bot know you are there\nserver status -------------> to know what services are up\nserver HStatus ------------> to know some basic hardware numbers\nserver machine ------------> to know whats the machine name\nserver help ---------------> to print this help\nserver distress {mensaje} -> to give us a call"
+	},
+	"Ana":{
+		"porn":["https:\\\\reddit.com\\randnsfw","http:\\\\redtube.com"],
+		"boobs":["( . )( . )","( . Y . )","( · )( · )"]
+	}
+}
