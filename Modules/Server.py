@@ -79,6 +79,9 @@ def distress(bot,update,args):
             message= message +x+" "
     Utils.sendMessage(Config.API_TOKEN,Config.DISTRESS_CHAT,message)
     update.message.reply_text("Espera: Tengo el telefono ☎️ del que sabe, un momento")
+
+def machine(bot,update,args):
+    update.message.reply_text("the machine name is: "+Config.machine)
     
 def help(bot,update,args):
     #basic help for all the commands supported, eventually it should tell users apart
@@ -87,6 +90,7 @@ def help(bot,update,args):
                               "server start --------------> to let the bot know you are there\n"+
                               "server status -------------> to know what services are up\n"+
                               "server HStatus ------------> to know some basic hardware numbers\n"+
+                              "server machine ------------> to know whats the machine name\n"
                               "server help ---------------> to print this help\n"+
                               "server distress {mensaje} -> to give us a call")
 
@@ -105,6 +109,8 @@ def handler(bot,update,args):
         start(bot,update,args)
     elif (args[0].lower() == 'status'):
         status(bot,update,args)
+    elif (args[0].lower() == 'machine'):
+        machine(bot,update,args)
     elif (args[0].lower() == 'distress'):
         distress(bot,update,args)
     elif (args[0].lower() == 'hstatus'):
