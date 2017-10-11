@@ -1,8 +1,8 @@
 #status reboot distress
 import Config,Utils
 import requests,socket
-import psutil
-
+import pythoncom
+import wmi
 
 def sizeof_fmt(num, suffix='B'):
     #basic function to display human ready numbers
@@ -43,33 +43,8 @@ def status(bot,update,args):
 
 
     update.message.reply_text("🚧Nothing more🚧")
-    
-def HStatus(bot,update,args):
-    #if status checks software hstatus checks hardware and system like resource management
-    #and temperature(not now, but it will)
-    update.message.reply_text("Checking computer status")
-    cpu_ussage=psutil.cpu_percent()
-    ram_curr=sizeof_fmt(psutil.virtual_memory().used,'B')
-    ram_all=sizeof_fmt(psutil.virtual_memory().total,'B')
-    cpu_temp=-273.3#psutil.sensors_temperatures()
-
-    text=("💻Cpu ussage is at "+str(cpu_ussage)+"% running at "+str(cpu_temp)+"º🌡"+
-    "\n🐏Ram ussage is at "+ram_curr+"/"+ram_all+"")
-    if(psutil.sensors_battery==None):
-        text+="\n🔌There is no battery detected"
-    else:
-        battery_cur=psutil.sensors_battery().percent
-        plugged=psutil.sensors_battery().power_plugged
-        text+=str("\n🔋battery is at "+str(battery_cur)+"%")
-        if plugged:text+=" and is plugged 🔌"
-        else:text+=" and is not plugged"
-    update.message.reply_text(text)
-
-
 
 def distress(bot,update,args): 
-    #This is the bat signal, anything beyond /server distress will be sent to the distress
-    #chat
     message = "Help, I'm "+ update.message.from_user.first_name
     if(len(args)>1):
         length = len(args)
@@ -78,11 +53,23 @@ def distress(bot,update,args):
         for x in call:
             message= message +x+" "
     Utils.sendMessage(Config.API_TOKEN,Config.DISTRESS_CHAT,message)
-    update.message.reply_text("Espera: Tengo el telefono ☎️ del que sabe, un momento")
-
-def machine(bot,update,args):
-    update.message.reply_text("the machine name is: "+Config.machine)
+    update.message.reply_text("Espera: Tengo el telefono del que sabe, un momento")
     
+def HStatus(bot,update,args):
+    try:
+        pythoncom.CoInitialize()
+        w = wmi.WMI(namespace="root\OpenHardwareMonitor")
+    except Exception as e:
+        print(e.__doc__)
+        print(e.message)
+
+    temperature_infos = w.Sensor()
+    for sensor in temperature_infos:
+        if sensor.SensorType == u'Temperature':
+            update.message.reply_text(str(sensor.Name) + ": " + str(sensor.Value))
+
+
+
 def help(bot,update,args):
     #basic help for all the commands supported, eventually it should tell users apart
     #and display more or less commands

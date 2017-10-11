@@ -1,5 +1,5 @@
 from telegram.ext import Updater, CommandHandler
-from Modules import Help, Hello, FileZilla, Server,Ana
+from Modules import Help, Hello, FileZilla, Server,Utilities
 import Config
 import os
 
@@ -13,24 +13,16 @@ def isItOn(bot, update):
     else:
         update.message.reply_text('Server is up!')
 
-debug=True
-if(debug):print("setting updater")
-updater = Updater(Config.API_TOKEN)
+if __name__ == "__main__":
+    updater = Updater(Config.API_TOKEN)
 
-if(debug):print("Setting handlers")
-updater.dispatcher.add_handler(CommandHandler('start', Server.start))
-updater.dispatcher.add_handler(CommandHandler('hello', Hello.hello))
-updater.dispatcher.add_handler(CommandHandler('help', Help.help))
-updater.dispatcher.add_handler(CommandHandler('status', isItOn))
-updater.dispatcher.add_handler(CommandHandler('logIn', FileZilla.adminLogIn, pass_args=True,))
-updater.dispatcher.add_handler(CommandHandler('logOut', FileZilla.logOut))
-updater.dispatcher.add_handler(CommandHandler('Server', Server.handler, pass_args=True))
-updater.dispatcher.add_handler(CommandHandler('Porn',Ana.porn))
-updater.dispatcher.add_handler(CommandHandler('boobs',Ana.boobs))
+    updater.dispatcher.add_handler(CommandHandler('start', Server.start))
+    updater.dispatcher.add_handler(CommandHandler('hello', Hello.hello))
+    updater.dispatcher.add_handler(CommandHandler('help', Help.help))
+    updater.dispatcher.add_handler(CommandHandler('status', isItOn))
+    updater.dispatcher.add_handler(CommandHandler('logIn', FileZilla.adminLogIn, pass_args=True,))
+    updater.dispatcher.add_handler(CommandHandler('logOut', FileZilla.logOut))
+    updater.dispatcher.add_handler(CommandHandler('Server', Server.handler, pass_args=True))
 
-
-if(debug):print("starting polling")
-updater.start_polling()
-
-if(debug):print("Idling")
-updater.idle()
+    updater.start_polling()
+    updater.idle()
