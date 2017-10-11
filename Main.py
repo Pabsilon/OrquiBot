@@ -13,15 +13,16 @@ def isItOn(bot, update):
     else:
         update.message.reply_text('Server is up!')
 
-updater = Updater(Config.API_TOKEN)
+if __name__ == "__main__":
+    updater = Updater(Config.API_TOKEN)
 
-updater.dispatcher.add_handler(CommandHandler('start', Server.start))
-updater.dispatcher.add_handler(CommandHandler('hello', Hello.hello))
-updater.dispatcher.add_handler(CommandHandler('help', Help.help))
-updater.dispatcher.add_handler(CommandHandler('status', isItOn))
-updater.dispatcher.add_handler(CommandHandler('logIn', FileZilla.adminLogIn, pass_args=True,))
-updater.dispatcher.add_handler(CommandHandler('logOut', FileZilla.logOut))
-updater.dispatcher.add_handler(CommandHandler('Server', Server.handler, pass_args=True))
+    updater.dispatcher.add_handler(CommandHandler('start', Server.start))
+    updater.dispatcher.add_handler(CommandHandler('hello', Hello.hello))
+    updater.dispatcher.add_handler(CommandHandler('help', Help.help))
+    updater.dispatcher.add_handler(CommandHandler('status', isItOn))
+    updater.dispatcher.add_handler(CommandHandler('logIn', FileZilla.adminLogIn, pass_args=True,))
+    updater.dispatcher.add_handler(CommandHandler('logOut', FileZilla.logOut))
+    updater.dispatcher.add_handler(CommandHandler('Server', Server.handler, pass_args=True))
 
-updater.start_polling()
-updater.idle()
+    updater.start_polling()
+    updater.idle()

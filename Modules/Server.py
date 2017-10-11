@@ -1,8 +1,8 @@
 #status reboot distress
 import Config,Utils
 import requests,socket
-import psutil
-
+import pythoncom
+import wmi
 
 def sizeof_fmt(num, suffix='B'):
     for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
@@ -49,23 +49,17 @@ def distress(bot,update,args):
     update.message.reply_text("Espera: Tengo el telefono del que sabe, un momento")
     
 def HStatus(bot,update,args):
-    update.message.reply_text("Checking computer status")
-    cpu_ussage=psutil.cpu_percent()
-    ram_curr=sizeof_fmt(psutil.virtual_memory().used,'B')
-    ram_all=sizeof_fmt(psutil.virtual_memory().total,'B')
-    cpu_temp=-273.3#psutil.sensors_temperatures()
+    try:
+        pythoncom.CoInitialize()
+        w = wmi.WMI(namespace="root\OpenHardwareMonitor")
+    except Exception as e:
+        print(e.__doc__)
+        print(e.message)
 
-    text=("currently cpu ussage is at "+str(cpu_ussage)+"% running at "+str(cpu_temp)+"º\n"+
-    "Ram ussage is at "+ram_curr+"/"+ram_all+"")
-    if(psutil.sensors_battery!=None):
-        text=text+"\nThere is no battery detected"
-    else:
-        battery_cur=psutil.sensors_battery().percent
-        plugged=psutil.sensors_battery().power_plugged
-        text=text+"\nbattery is at "+battery_cur+"%"
-        if plugged:text=text+" and is plugged"
-        else:text=text+"and is not plugged"
-    update.message.reply_text(text)
+    temperature_infos = w.Sensor()
+    for sensor in temperature_infos:
+        if sensor.SensorType == u'Temperature':
+            update.message.reply_text(str(sensor.Name) + ": " + str(sensor.Value))
 
 
 
