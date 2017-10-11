@@ -3,6 +3,8 @@ import Config,Utils
 import requests,socket
 import pythoncom
 import wmi
+from Modules.Users import LOGGED_ADMINS
+import subprocess
 
 def sizeof_fmt(num, suffix='B'):
     #basic function to display human ready numbers
@@ -54,7 +56,21 @@ def distress(bot,update,args):
             message= message +x+" "
     Utils.sendMessage(Config.API_TOKEN,Config.DISTRESS_CHAT,message)
     update.message.reply_text("Espera: Tengo el telefono del que sabe, un momento")
-    
+
+def reboot(bot,update,args):
+    if not LOGGED_ADMINS.get(update.message.from_user.username):
+        update.message.reply_text("You cheeky bastard ain't shutting me off.")
+    else:
+        update.message.reply_text("The server will reboot in 1 (ONE) minute. If you have second thoughts, or this was a mistake, use the command /server cancelreboot")
+        subprocess.call(["shutdown", "/r"])
+
+def cancelreboot(bot,update,args):
+    if not LOGGED_ADMINS.get(update.message.from_user.username):
+        update.message.reply_text("You cheeky bastard ain't stopping me from killing meself!")
+    else:
+        subprocess.call(["shutdown", "/a"])
+        update.message.reply_text("Armaggedon avoided!")
+
 def HWStatus(bot,update,args):
     try:
         pythoncom.CoInitialize()
@@ -134,6 +150,10 @@ def handler(bot,update,args):
         HWStatus(bot,update,args)
     elif (args[0].lower() == 'hwinfo'):
         HWInfo(bot,update,args)
+    elif (args[0].lower() == 'reboot'):
+        reboot(bot,update,args)
+    elif (args[0].lower() == 'cancelreboot'):
+        cancelreboot(bot,update,args)
     else:
         update.message.reply_text("I'm sorry, I don't understand")
     #check other outcomes
