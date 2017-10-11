@@ -58,8 +58,8 @@ def HStatus(bot,update,args):
 
     temperature_infos = w.Sensor()
     for sensor in temperature_infos:
-        if sensor.SensorType == u'Temperature':
-            update.message.reply_text(str(sensor.Name) + ": " + str(sensor.Value))
+        if sensor.Name == u'CPU Package' and sensor.sensorType == u'Temperature':
+            update.message.reply_text("Cpu Temperature is standing at " + str(sensor.Value)+"C, Max: "+str(sensor.Max)+"C, Min: "+str(sensor.Min) +"C.")
 
 
 
