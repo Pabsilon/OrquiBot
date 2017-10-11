@@ -48,19 +48,49 @@ def distress(bot,update,args):
     Utils.sendMessage(Config.API_TOKEN,Config.DISTRESS_CHAT,message)
     update.message.reply_text("Espera: Tengo el telefono del que sabe, un momento")
     
-def HStatus(bot,update,args):
+def HWStatus(bot,update,args):
     try:
         pythoncom.CoInitialize()
         w = wmi.WMI(namespace="root\OpenHardwareMonitor")
     except Exception as e:
         print(e.__doc__)
         print(e.message)
+        update.message.reply_text("OpenHardwareMonitor might not be running on the server..")
 
     temperature_infos = w.Sensor()
+    HWinfo = {}
     for sensor in temperature_infos:
         if sensor.Name == u'CPU Package' and sensor.sensorType == u'Temperature':
-            update.message.reply_text("Cpu Temperature is standing at " + str(sensor.Value)+"C, Max: "+str(sensor.Max)+"C, Min: "+str(sensor.Min) +"C.")
+            HWinfo['cpuTemp'] = sensor.Value
+        elif sensor.Name == u'CPU Total':
+            HWinfo['cpuLoad'] = round(sensor.Value,2)
+        elif sensor.Name == u'Used Memory':
+            HWinfo['memUse'] = round(sensor.Value,2)
+        elif sensor.Name == u'Available Memory':
+            HWinfo['memAv'] = round(sensor.Value,2)
+    update.message.reply_text("Server Information:\n"
+                              "CPU Temperature:     " + str(HWinfo['cpuTemp']) + "C\n"
+                              "CPU Load:                     " + str(HWinfo['cpuLoad']) + "%\n"
+                              "Memory:                        " + str(HWinfo['memUse']) + "GB/" + str(HWinfo['memUse']+HWinfo['memAv']) + "GB")
 
+def HWInfo(bot,update,args):
+    try:
+        pythoncom.CoInitialize()
+        w = wmi.WMI(namespace="root\OpenHardwareMonitor")
+    except Exception as e:
+        print(e.__doc__)
+        print(e.message)
+        update.message.reply_text("OpenHardwareMonitor might not be running on the server..")
+    hwinfo = w.Hardware()
+    info = {}
+
+    for hardware in hwinfo:
+        if hardware.HardwareType == u'Mainboard':
+            info['mobo'] = str(hardware.Name)
+        elif hardware.HardwareType == u'CPU':
+            info['cpu'] = str(hardware.Name)
+    update.message.reply_text("The server is currently hosted by a " + info['mobo'] +
+                              " Motherboard running a " + info['cpu'] + " processor.")
 
 
 def help(bot,update,args):
@@ -87,8 +117,10 @@ def handler(bot,update,args):
         status(bot,update,args)
     elif (args[0].lower() == 'distress'):
         distress(bot,update,args)
-    elif (args[0].lower() == 'hstatus'):
-        HStatus(bot,update,args)
+    elif (args[0].lower() == 'hwstatus'):
+        HWStatus(bot,update,args)
+    elif (args[0].lower() == 'hwinfo'):
+        HWInfo(bot,update,args)
     else:
         update.message.reply_text("I'm sorry, I don't understand")
     #check other outcomes
