@@ -1,5 +1,5 @@
 from telegram.ext import Updater, CommandHandler
-from Modules import Help, Hello, FileZilla, Server,Utilities
+from Modules import Help, Hello, FileZilla, Server,Utilities,Services
 import Config
 import os
 
@@ -23,6 +23,7 @@ if __name__ == "__main__":
     updater.dispatcher.add_handler(CommandHandler('logIn', FileZilla.adminLogIn, pass_args=True,))
     updater.dispatcher.add_handler(CommandHandler('logOut', FileZilla.logOut))
     updater.dispatcher.add_handler(CommandHandler('Server', Server.handler, pass_args=True))
+    updater.dispatcher.add_handler(CommandHandler('services', Services.handler, pass_args=True))
 
     updater.start_polling()
     updater.idle()

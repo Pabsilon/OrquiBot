@@ -16,3 +16,5 @@ if socket.gethostname() == 'Server':
 ADMIN_GROUP = 'SuperUsers'
 USERS_GROUP = 'Users', 'SubAdmin'
 DISTRESS_CHAT = '286257058'
+
+SERVICES_LIST = ["OpenHardwareMonitor.exe","FileZilla Server.exe", "Plex Media Server.exe", "deluged.exe"]
