@@ -31,7 +31,8 @@ def adminLogIn(bot, update, args):
         else:
             update.message.reply_text('XML file missing. Try updating Config.py')
 
-    except (IndexError, ValueError):
+    except Exception as e:
+        print(e)
         update.message.reply_text('Usage: /adminLogIn Username')
 
 def logOut(bot,update):

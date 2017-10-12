@@ -10,7 +10,7 @@ if socket.gethostname() == 'Zarya': #El ordenador de pont
     API_TOKEN = '436440922:AAGUFL-tiwt3g7dmX8Z7S10URD2QDwJJupU'  # NOTORQUIBOT
 if socket.gethostname() == 'Orquishare':
     print(socket.gethostname())
-    XML_PATH='c:\\Hosted\\FileZilla\\FileZilla Server.xml'
+    XML_PATH= 'c:\\Hosted\\FilleZilla\\FileZilla Server.xml'
     API_TOKEN = '376202632:AAHFi16Wc37p1VY_mJseP5S1zdy0xw5cncU'  # Orquibot
 
 ADMIN_GROUP = 'SuperUsers'
