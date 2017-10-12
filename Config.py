@@ -8,9 +8,9 @@ if socket.gethostname() == 'DESKTOP-1E39VB7' or 'ALPHA': #Ordenadores de Mac
 if socket.gethostname() == 'Zarya': #El ordenador de pont
     XML_PATH='Ruta con doble \\ al fichero xml.'
     API_TOKEN = '436440922:AAGUFL-tiwt3g7dmX8Z7S10URD2QDwJJupU'  # NOTORQUIBOT
-if socket.gethostname() == 'Server':
+if socket.gethostname() == 'Orquishare':
     print(socket.gethostname())
-    XML_PATH='c:\\Hosted\\FileZilla Server\\FileZilla Server.xml'
+    XML_PATH='c:\\Hosted\\FileZilla\\FileZilla Server.xml'
     API_TOKEN = '376202632:AAHFi16Wc37p1VY_mJseP5S1zdy0xw5cncU'  # Orquibot
 
 ADMIN_GROUP = 'SuperUsers'
