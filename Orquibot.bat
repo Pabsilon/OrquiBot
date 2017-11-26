@@ -1,0 +1,1 @@
+py c:\Hosted\Orquibot\Main.py

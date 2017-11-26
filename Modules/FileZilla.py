@@ -42,8 +42,14 @@ def adminLogIn(bot, update, args):
         else:
             update.message.reply_text('XML file missing. Try updating Config.py')
 
+<<<<<<< HEAD
     except (IndexError, ValueError):
         update.message.reply_text('Usage: /login Username - Remember, Username is Case Sensitive')
+=======
+    except Exception as e:
+        print(e)
+        update.message.reply_text('Usage: /adminLogIn Username')
+>>>>>>> origin/master
 
 def logOut(bot,update):
     user = update.message.from_user.username
