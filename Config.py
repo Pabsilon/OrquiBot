@@ -14,7 +14,7 @@ if socket.gethostname() == 'Orquishare':
     API_TOKEN = '376202632:AAHFi16Wc37p1VY_mJseP5S1zdy0xw5cncU'  # Orquibot
 
 ADMIN_GROUP = 'SuperUsers'
-USERS_GROUP = 'Users', 'SubAdmin'
+USERS_GROUP = 'Users', 'SubAdmin', 'UsersTorrent'
 DISTRESS_CHAT = '286257058'
 
 SERVICES_LIST = ["OpenHardwareMonitor.exe","FileZilla Server.exe", "Plex Media Server.exe", "deluged.exe"]
