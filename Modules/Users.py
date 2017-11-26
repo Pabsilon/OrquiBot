@@ -1,9 +1,8 @@
-LOGGED_ADMINS = {}
-LOGGED_USERS = {}
-
 from random import choice
 import hashlib
 
+LOGGED_ADMINS = {}
+LOGGED_USERS = {}
 def generateHashedPass(pwd, salt):
     return hashlib.sha512(pwd+salt).hexdigest()
 
