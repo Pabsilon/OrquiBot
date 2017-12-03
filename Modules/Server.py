@@ -58,18 +58,21 @@ def distress(bot, update, args):
 
 def reboot(bot, update, args):
     #Non admins won't be able to reboot the server
+    test = LOGGED_ADMINS.get(update.message.from_user.username)
     if not LOGGED_ADMINS.get(update.message.from_user.username):
         update.message.reply_text("You cheeky bastard ain't shutting me off.")
     else:
         # If the admin has added a time range for the reboot, it will be notified.
-        if int(args[1]) > 4:
-            Utils.broadcastAdmins(bot, "The server will reboot in " + args[1] + " minutes. If you have second thoughts, or this was a mistake, use the command /server cancelreboot")
-            saveAdmins()
-            subprocess.call(["shutdown", "/r", "/t", str(int(args[1])*60)]) # Time has to be in seconds
-        elif int(args[1]) < 5: # For safety reasons, minimum reboot time (urgent) will be 5 minutes)
-            update.message.reply_text("Number of minutes for reboot has to be greater than one")
-        else:
+        try:
+            if int(args[1]) > 4:
+                Utils.broadcastAdmins(bot, "The server will reboot in " + args[1] + " minutes. If you have second thoughts, or this was a mistake, use the command /server cancelreboot")
+                saveAdmins()
+                subprocess.call(["shutdown", "/r", "/t", str(int(args[1])*60)]) # Time has to be in seconds
+            elif int(args[1]) < 5: # For safety reasons, minimum reboot time (urgent) will be 5 minutes)
+                update.message.reply_text("Number of minutes for reboot has to be greater than one")
+        except:
             Utils.broadcastAdmins(bot, "The server will reboot in 15 (FIFTEEN) minutes. If you have second thoughts, or this was a mistake, use the command /server cancelreboot")
+            saveAdmins()
             subprocess.call(["shutdown", "/r", "/t", "900"]) #15 minutes; the default for reboot.
 
 def cancelreboot(bot,update,args):

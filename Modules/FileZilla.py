@@ -16,9 +16,9 @@ def adminLogIn(bot, update, args):
             if user in dict:
                 alreadyLoggedIn = True
         if LOGGED_ADMINS.get(update.message.from_user.username):
-            update.message.reply_text('You\'re already logged in as ' + list(LOGGED_ADMINS.get(update.message.from_user.username))[1])
+            update.message.reply_text('You\'re already logged in as ' + LOGGED_ADMINS[update.message.from_user.username].get('name'))
         elif LOGGED_USERS.get(update.message.from_user.username):
-            update.message.reply_text('You\'re already logged in as ' + list(LOGGED_USERS.get(update.message.from_user.username))[1])
+            update.message.reply_text('You\'re already logged in as ' + LOGGED_USERS[update.message.from_user.username].get('name'))
         elif alreadyLoggedIn:
             update.message.reply_text('That user is already logged on by another person. If you think this is a mistake, well.. tough luck.')
         elif user:
@@ -31,10 +31,10 @@ def adminLogIn(bot, update, args):
                     exists = True
                     options = child[2]
                     if options.text in ADMIN_GROUP:
-                        LOGGED_ADMINS[update.message.from_user.username] = {args[0], update.message.chat_id}
+                        LOGGED_ADMINS[update.message.from_user.username] = {'name': args[0], 'chatId': update.message.chat_id}
                         update.message.reply_text('Welcome, Admin: ' + args[0] + ' logged as ' + update.message.from_user.username)
                     elif options.text in USERS_GROUP:
-                        LOGGED_USERS[update.message.from_user.username] = {args[0], update.message.chat_id}
+                        LOGGED_USERS[update.message.from_user.username] = {'name': args[0], 'chatId': update.message.chat_id}
                         update.message.reply_text('Yay! ' + args[0] + ' logged as ' + update.message.from_user.username)
 
             if not exists:
