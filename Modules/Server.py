@@ -1,4 +1,4 @@
-#status reboot distress
+
 import Config
 import socket
 import pythoncom
@@ -7,6 +7,7 @@ from Modules.Users import LOGGED_ADMINS
 import subprocess
 import Modules.Utilities as Utils
 from pexpect import popen_spawn
+from Modules.PersistentStorage import saveAdmins
 
 
 def sizeof_fmt(num, suffix='B'):
@@ -16,11 +17,6 @@ def sizeof_fmt(num, suffix='B'):
             return "%3.1f%s%s" % (num, unit, suffix)
         num /= 1024.0
     return "%.1f%s%s" % (num, 'Yi', suffix)
-
-def start(bot, update,args):
-    #now it's a place holder, eventually should start basic services like open hardware monitor
-    #and its own server startup batch job
-    update.message.reply_text('Hello World!')
 
 def status(bot,update,args):
     #status should check if diferent services are up or down
@@ -68,6 +64,7 @@ def reboot(bot, update, args):
         # If the admin has added a time range for the reboot, it will be notified.
         if int(args[1]) > 4:
             Utils.broadcastAdmins(bot, "The server will reboot in " + args[1] + " minutes. If you have second thoughts, or this was a mistake, use the command /server cancelreboot")
+            saveAdmins()
             subprocess.call(["shutdown", "/r", "/t", str(int(args[1])*60)]) # Time has to be in seconds
         elif int(args[1]) < 5: # For safety reasons, minimum reboot time (urgent) will be 5 minutes)
             update.message.reply_text("Number of minutes for reboot has to be greater than one")

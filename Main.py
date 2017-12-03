@@ -1,5 +1,5 @@
 from telegram.ext import Updater, CommandHandler
-from Modules import Help, Hello, FileZilla, Server,Utilities,Services
+from Modules import Help, Hello, FileZilla, Server,PersistentStorage,Services
 import Config
 import os
 
@@ -16,7 +16,7 @@ def isItOn(bot, update):
 if __name__ == "__main__":
     updater = Updater(Config.API_TOKEN)
 
-    updater.dispatcher.add_handler(CommandHandler('start', Server.start))
+    PersistentStorage.loadAdmins()
     updater.dispatcher.add_handler(CommandHandler('hello', Hello.hello))
     updater.dispatcher.add_handler(CommandHandler('help', Help.help))
     updater.dispatcher.add_handler(CommandHandler('status', isItOn))
