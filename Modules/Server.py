@@ -1,4 +1,3 @@
-
 import Config
 import socket
 import pythoncom
@@ -155,6 +154,9 @@ def doubleDir(bot,update,args):
     test = process.before # This shit shows EVERYTHING up to now on the console -> TODO: not taking into account already shown messages.
     update.message.reply_text(str(test))
 
+def test(bot,update,args):
+    Utils.askAdminsYesOrNo(bot)
+
 def handler(bot,update,args):
     #catch-up process to dispatch commands
     print("server called with",end=' ')
@@ -177,6 +179,8 @@ def handler(bot,update,args):
         cancelreboot(bot,update,args)
     elif (args[0].lower() == 'doubledir'):
         doubleDir(bot,update,args)
+    elif (args[0].lower() == 'test'):
+        test(bot,update,args)
     else:
         update.message.reply_text("I'm sorry, I don't understand")
     #check other outcomes
