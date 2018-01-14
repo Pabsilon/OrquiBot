@@ -9,6 +9,7 @@ def adminLogIn(bot, update, args):
     try:
         user = args[0]
         alreadyLoggedIn = False;
+        #This block checks if the user is already logged in, as either User or Admin and returns a message.
         for dict in LOGGED_ADMINS.values():
             if user in dict:
                 alreadyLoggedIn = True
@@ -16,10 +17,13 @@ def adminLogIn(bot, update, args):
             if user in dict:
                 alreadyLoggedIn = True
         if LOGGED_ADMINS.get(update.message.from_user.username):
+            #This is only if you're already logged in as an admin
             update.message.reply_text('You\'re already logged in as ' + LOGGED_ADMINS[update.message.from_user.username].get('name'))
         elif LOGGED_USERS.get(update.message.from_user.username):
+            #This is only if you're already logged in as a user
             update.message.reply_text('You\'re already logged in as ' + LOGGED_USERS[update.message.from_user.username].get('name'))
         elif alreadyLoggedIn:
+            #This only happens if another user is logged with your account (hax much?)
             update.message.reply_text('That user is already logged on by another person. If you think this is a mistake, well.. tough luck.')
         elif user:
             tree = ET.parse(XML_PATH)
@@ -30,7 +34,7 @@ def adminLogIn(bot, update, args):
                 if args[0] == child.get('Name'):
                     exists = True
                     options = child[2]
-                    if options.text in ADMIN_GROUP:
+                    if options.text is ADMIN_GROUP:
                         LOGGED_ADMINS[update.message.from_user.username] = {'name': args[0], 'chatId': update.message.chat_id}
                         update.message.reply_text('Welcome, Admin: ' + args[0] + ' logged as ' + update.message.from_user.username)
                     elif options.text in USERS_GROUP:
