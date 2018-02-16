@@ -1,9 +1,11 @@
 from xml.etree import ElementTree as ET
 from Config import XML_PATH, ADMIN_GROUP, USERS_GROUP
 from Modules.Users import LOGGED_ADMINS, LOGGED_USERS
+from Main import logging
 
 
 def adminLogIn(bot, update, args):
+    logging.warning("Log in attempt by " + str(update.message.from_user.username))
     #Allows an admin from the ftp to log in.
 
     try:
@@ -50,6 +52,7 @@ def adminLogIn(bot, update, args):
         update.message.reply_text('Usage: /login Username - Remember, Username is Case Sensitive')
 
 def logOut(bot,update):
+    logging.warning("Logout attempted by " + str(update.message.from_user.username))
     user = update.message.from_user.username
     try:
         LOGGED_ADMINS.pop(user)

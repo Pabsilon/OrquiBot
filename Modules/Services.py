@@ -1,9 +1,11 @@
 import psutil
 from Config import SERVICES_LIST as servs
+from Main import logging
 
 
 
 def listprocess(bot,update,args):
+    logging.warning("Service listprocess called by " + str(update.message.from_user.username))
     online = []
     for p in psutil.process_iter():
         if p.name() in servs:

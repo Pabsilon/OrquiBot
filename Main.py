@@ -2,6 +2,7 @@ from telegram.ext import Updater, CommandHandler
 from Modules import Help, Hello, FileZilla, Server,PersistentStorage,Services
 import Config
 import os
+import logging
 
 #Pont was here and didn't want to touch anything more
 
@@ -15,7 +16,7 @@ def isItOn(bot, update):
 
 if __name__ == "__main__":
     updater = Updater(Config.API_TOKEN)
-
+    logging.basicConfig(format='%(asctime)s %(message)s')
     PersistentStorage.loadAdmins()
     updater.dispatcher.add_handler(CommandHandler('hello', Hello.hello))
     updater.dispatcher.add_handler(CommandHandler('help', Help.help))

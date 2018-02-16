@@ -1,8 +1,10 @@
 from Modules.Users import LOGGED_ADMINS
 import os
+from Main import logging
 
 
 def loadAdmins():
+    logging.warning("Loading admins.")
     if os.stat("admins.orc").st_size!=0:
         file = open("admins.orc", "r")
         line = file.readline()
@@ -13,6 +15,7 @@ def loadAdmins():
 
 
 def saveAdmins():
+    logging.warning("Saving admins."))
     file = open ("admins.orc", "w")
     for admin in LOGGED_ADMINS:
         file.write(admin + "\n")

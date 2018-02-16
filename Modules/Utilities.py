@@ -1,5 +1,6 @@
 from Modules.Users import LOGGED_ADMINS
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from Main import logging
 
 
 def getChatIdByUser(user):
@@ -15,6 +16,7 @@ def sendMessage(bot,chatId,content):
 
 
 def broadcastAdmins(bot,content):
+    logging.warning("Sending a message to all logged Admins: " + str(LOGGED_ADMINS.values()))
     for admin in LOGGED_ADMINS.values():
         sendMessage(bot, admin.get('chatId'), content)
         print("Sending message to " + admin.get('name'))

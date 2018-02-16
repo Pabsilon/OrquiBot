@@ -7,6 +7,7 @@ import subprocess
 import Modules.Utilities as Utils
 from pexpect import popen_spawn
 from Modules.PersistentStorage import saveAdmins
+from Main import logging
 
 
 def sizeof_fmt(num, suffix='B'):
@@ -23,6 +24,7 @@ def status(bot,update,args):
     #check itself. some exceptions are orquibot witch cheks himself by executing and
     #ssh witch wont have a module and will be managed by /server. It is checkede waiting
     #for a tcp open port at the correct place, if it is something else it will do false positive
+    logging.warning("Server status called by " + str(update.message.from_user.username))
     update.message.reply_text('⚙️Orquibot   ✅')
 
     #Torrent
@@ -44,6 +46,7 @@ def status(bot,update,args):
 
 def distress(bot, update, args):
     #We generate the distress message that we will send to the admins
+    logging.warning("Server distress called by " + str(update.message.from_user.username))
     message = "Help, I'm " + update.message.from_user.first_name
     if len(args) > 1:
         message = message + " and : "
@@ -57,6 +60,7 @@ def distress(bot, update, args):
 
 def reboot(bot, update, args):
     #Non admins won't be able to reboot the server
+    logging.warning("Server reboot called by " + str(update.message.from_user.username))
     test = LOGGED_ADMINS.get(update.message.from_user.username)
     if not LOGGED_ADMINS.get(update.message.from_user.username):
         update.message.reply_text("You cheeky bastard ain't shutting me off.")
@@ -76,6 +80,7 @@ def reboot(bot, update, args):
 
 def cancelreboot(bot,update,args):
     # A non admin shouldn't be able to cancel the server's reboot
+    logging.warning("Server cancel reboot called by " + str(update.message.from_user.username))
     if not LOGGED_ADMINS.get(update.message.from_user.username):
         update.message.reply_text("You cheeky bastard ain't stopping me from killing meself!") # That's why we insult him.
     else:
@@ -83,6 +88,7 @@ def cancelreboot(bot,update,args):
         Utils.broadcastAdmins(bot,"Armaggedon avoided!") # Notify Admins that the server won't reboot now.
 
 def HWStatus(bot,update,args):
+    logging.warning("Server HWStatus called by " + str(update.message.from_user.username))
     try:
         pythoncom.CoInitialize() # We need to initialize the WMI python interface
         w = wmi.WMI(namespace="root\OpenHardwareMonitor") # And load the OpenHardwareMonitor item.
@@ -109,6 +115,7 @@ def HWStatus(bot,update,args):
                               "Memory:                        " + str(HWinfo['memUse']) + "GB/" + str(HWinfo['memUse']+HWinfo['memAv']) + "GB")
 
 def HWInfo(bot,update,args):
+    logging.warning("Server HWINFO called by " + str(update.message.from_user.username))
     try:
         pythoncom.CoInitialize() # We initialize the pyhon wmi interface
         w = wmi.WMI(namespace="root\OpenHardwareMonitor") #We open the OpenHardwareMonitor wmi interface
@@ -129,6 +136,7 @@ def HWInfo(bot,update,args):
 
 
 def help(bot,update,args):
+    logging.warning("Server Help called by " + str(update.message.from_user.username))
     #List of commands. -> This has to be updated before going into PROD. FFS
     update.message.reply_text("/Server does some server management:\n"+
                               "server status -------------> Displays a list of  active services\n"+
@@ -143,6 +151,7 @@ def help(bot,update,args):
                                   "")
 
 def doubleDir(bot,update,args):
+    logging.warning("Attempting console parsing")
     #This is me trying to communicate with a process
     try:
         process = popen_spawn.PopenSpawn('cmd') # Of course, we have to popen our way in through CMD
