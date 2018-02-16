@@ -1,6 +1,6 @@
 import psutil
 from Config import SERVICES_LIST as servs
-from Main import logging
+import logging
 
 
 

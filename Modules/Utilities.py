@@ -1,6 +1,6 @@
 from Modules.Users import LOGGED_ADMINS
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from Main import logging
+import logging
 
 
 def getChatIdByUser(user):

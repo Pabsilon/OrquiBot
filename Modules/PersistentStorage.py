@@ -1,7 +1,6 @@
 from Modules.Users import LOGGED_ADMINS
 import os
-from Main import logging
-
+import logging
 
 def loadAdmins():
     logging.warning("Loading admins.")
@@ -15,7 +14,7 @@ def loadAdmins():
 
 
 def saveAdmins():
-    logging.warning("Saving admins."))
+    logging.warning("Saving admins.")
     file = open ("admins.orc", "w")
     for admin in LOGGED_ADMINS:
         file.write(admin + "\n")

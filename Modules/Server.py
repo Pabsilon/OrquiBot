@@ -7,7 +7,8 @@ import subprocess
 import Modules.Utilities as Utils
 from pexpect import popen_spawn
 from Modules.PersistentStorage import saveAdmins
-from Main import logging
+import logging
+
 
 
 def sizeof_fmt(num, suffix='B'):

@@ -1,7 +1,7 @@
 from xml.etree import ElementTree as ET
 from Config import XML_PATH, ADMIN_GROUP, USERS_GROUP
 from Modules.Users import LOGGED_ADMINS, LOGGED_USERS
-from Main import logging
+import logging
 
 
 def adminLogIn(bot, update, args):
