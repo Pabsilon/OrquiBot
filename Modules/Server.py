@@ -6,6 +6,7 @@ from Modules.Users import LOGGED_ADMINS
 import subprocess
 import Modules.Utilities as Utils
 from pexpect import popen_spawn
+import pexpect
 from Modules.PersistentStorage import saveAdmins
 import logging
 
@@ -151,7 +152,7 @@ def help(bot,update,args):
                                   "server cancelreboot -------> Cancels the reboot order"
                                   "")
 
-def doubleDir(bot,update,args):
+def cmd(bot,update,args):
     logging.warning("Attempting console parsing")
     #This is me trying to communicate with a process
     try:
@@ -159,10 +160,21 @@ def doubleDir(bot,update,args):
     except Exception as e:
         print(e.__doc__)
         print(e.message)
-    process.sendline('help') #This is how we send a message
-    process.expect('CMD.EXE') # An expected message? Probably not mandatory, requires further testing: TODO
-    test = process.before # This shit shows EVERYTHING up to now on the console -> TODO: not taking into account already shown messages.
-    update.message.reply_text(str(test))
+    line=args
+    line.pop(0)
+    command = ''
+    for word in line:
+        command+=' '+word
+    process.sendline(command) #This is how we send a message
+    process.timeout=1
+    process.expect(pexpect.TIMEOUT) # Holy shit, timeout works. This is in order to launch batches, so a configurable timeout should be in order.
+    test = process.before # This shit shows EVERYTHING up to now on the console -> TODO: not taking into account already shown messages.  -> Who the fuck cares, it works!! We just need interactivity
+    try:
+        update.message.reply_text(str(test).replace(r'\n', '\n').replace(r'\r', '\r'))
+    except Exception as e:
+        print(e.__doc__)
+        print(e.message)
+    
 
 def test(bot,update,args):
     Utils.askAdminsYesOrNo(bot)
@@ -187,8 +199,8 @@ def handler(bot,update,args):
         reboot(bot,update,args)
     elif (args[0].lower() == 'cancelreboot'):
         cancelreboot(bot,update,args)
-    elif (args[0].lower() == 'doubledir'):
-        doubleDir(bot,update,args)
+    elif (args[0].lower() == 'cmd'):
+        cmd(bot,update,args)
     elif (args[0].lower() == 'test'):
         test(bot,update,args)
     else:
