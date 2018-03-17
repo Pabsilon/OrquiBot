@@ -137,72 +137,67 @@ def HWInfo(bot,update,args):
                               " Motherboard running a " + info['cpu'] + " processor.")
 
 
-def help(bot,update,args):
+def help(bot, update, args):
     logging.warning("Server Help called by " + str(update.message.from_user.username))
-    #List of commands. -> This has to be updated before going into PROD. FFS
+    # List of commands. -> This has to be updated before going into PROD. FFS
     update.message.reply_text("/Server does some server management:\n"+
                               "server status -------------> Displays a list of  active services\n"+
                               "server HWStatus -----------> Displays current server usage\n"+
                               "server HWInfo -------------> Displays the list of the server's specs\n"
                               "server distress {message} -> Warn an Admin. Abuse will not be tolerated")
     if LOGGED_ADMINS.get(update.message.from_user.username):
-        #Admin secret menu of commands for the server
+        # Admin secret menu of commands for the server
         update.message.reply_text("Since you're an Admin, here are the secret admin cheatcodes:\n"+
                                   "server reboot {minutes} ---> Orders the server to reboot in N minutes (default 15) and will warn all other admins\n"+
                                   "server cancelreboot -------> Cancels the reboot order"
                                   "")
 
-def cmd(bot,update,args):
+
+def cmd(update, args):
+    # This whole thing is a proof of concept. It needs more security, and interaction.
     logging.warning("Attempting console parsing")
-    #This is me trying to communicate with a process
-    try:
-        process = popen_spawn.PopenSpawn('cmd') # Of course, we have to popen our way in through CMD
-    except Exception as e:
-        print(e.__doc__)
-        print(e.message)
-    line=args
-    line.pop(0)
-    command = ''
-    for word in line:
-        command+=' '+word
-    process.sendline(command) #This is how we send a message
-    process.timeout=1
-    process.expect(pexpect.TIMEOUT) # Holy shit, timeout works. This is in order to launch batches, so a configurable timeout should be in order.
-    test = process.before # This shit shows EVERYTHING up to now on the console -> TODO: not taking into account already shown messages.  -> Who the fuck cares, it works!! We just need interactivity
-    try:
-        update.message.reply_text(str(test).replace(r'\n', '\n').replace(r'\r', '\r'))
-    except Exception as e:
-        print(e.__doc__)
-        print(e.message)
-    
+    # This is me trying to communicate with a process
+    if LOGGED_ADMINS.get(update.message.from_user.username):
+        try:
+            process = popen_spawn.PopenSpawn('cmd')  # Of course, we have to popen our way in through CMD
+        except Exception as e:
+            print(e.__doc__)
+            print(e.message)
+        #for word in line:
+        #    command += ' '+word
+        process.sendline(args)  # This is how we send a message
+        process.timeout = 1
+        process.expect(pexpect.TIMEOUT)  # Holy shit, timeout works. This is in order to launch batches, so a configurable timeout should be in order.
+        console = process.before  # This shit shows EVERYTHING up to now on the console -> TODO: not taking into account already shown messages.  -> Who the fuck cares, it works!! We just need interactivity
+        try:
+            update.message.reply_text(str(console).replace(r'\n', '\n').replace(r'\r', '\r'))
+        except Exception as e:
+            print(e.__doc__)
+            print(e.message)
+    else:
+        update.message.reply_text("No no no. That's not for you.")
 
-def test(bot,update,args):
-    Utils.askAdminsYesOrNo(bot)
 
-def handler(bot,update,args):
-    #catch-up process to dispatch commands
-    print("server called with",end=' ')
+def handler(bot, update, args):
+    # catch-up process to dispatch commands
+    print("server called with", end=' ')
     for arg in args:
         print(arg,  end=' ')
     print("")
-    if ( len(args)==0 or args[0].lower() == 'help'):
-        help(bot,update,args)
-    elif (args[0].lower() == 'status'):
-        status(bot,update,args)
-    elif (args[0].lower() == 'distress'):
-        distress(bot,update,args)
-    elif (args[0].lower() == 'hwstatus'):
-        HWStatus(bot,update,args)
-    elif (args[0].lower() == 'hwinfo'):
-        HWInfo(bot,update,args)
-    elif (args[0].lower() == 'reboot'):
-        reboot(bot,update,args)
-    elif (args[0].lower() == 'cancelreboot'):
-        cancelreboot(bot,update,args)
-    elif (args[0].lower() == 'cmd'):
-        cmd(bot,update,args)
-    elif (args[0].lower() == 'test'):
-        test(bot,update,args)
+    if len(args) == 0 or args[0].lower() == 'help':
+        help(bot, update, args)
+    elif args[0].lower() == 'status':
+        status(bot, update, args)
+    elif args[0].lower() == 'distress':
+        distress(bot, update, args)
+    elif args[0].lower() == 'hwstatus':
+        HWStatus(bot, update, args)
+    elif args[0].lower() == 'hwinfo':
+        HWInfo(bot, update, args)
+    elif args[0].lower() == 'reboot':
+        reboot(bot, update, args)
+    elif args[0].lower() == 'cancelreboot':
+        cancelreboot(bot, update, args)
     else:
         update.message.reply_text("I'm sorry, I don't understand")
-    #check other outcomes
+    # check other outcomes
