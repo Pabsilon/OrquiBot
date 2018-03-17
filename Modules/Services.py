@@ -32,8 +32,6 @@ def launchservice(bot, update, args):
     else:
         update.message.reply_text("I'm sorry, that service is not configured, or doesn't exist")
 
-def stopservice(bot, update, args):
-    # this TODO
 
 def handler(bot,update,args):
     #catch-up process to dispatch commands
