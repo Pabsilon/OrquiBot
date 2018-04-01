@@ -18,8 +18,8 @@ def loadAdmins():
 def saveAdmins():
     logging.warning("Saving admins.")
     file = open ("admins.orc", "w+")
-        for admin in LOGGED_ADMINS:
-            file.write(admin + "\n")
+    for admin in LOGGED_ADMINS:
+        file.write(admin + "\n")
         file.write(LOGGED_ADMINS[admin].get('name')+"\n")
         test = LOGGED_ADMINS[admin].get('chatId')
         file.write(str(test) + "\n")
