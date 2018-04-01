@@ -1,8 +1,7 @@
 from xml.etree import ElementTree as ET
-from Config import XML_PATH, ADMIN_GROUP, USERS_GROUP
+from Config import XML_PATH, ADMIN_GROUP, USERS_GROUP, USERS_FOLDER
 from Modules.Users import LOGGED_ADMINS, LOGGED_USERS
-import logging
-
+import logging, os.path, string, random
 
 def adminLogIn(bot, update, args):
     logging.warning("Log in attempt by " + str(update.message.from_user.username))
@@ -36,12 +35,33 @@ def adminLogIn(bot, update, args):
                 if args[0] == child.get('Name'):
                     exists = True
                     options = child[2]
-                    if options.text is ADMIN_GROUP:
-                        LOGGED_ADMINS[update.message.from_user.username] = {'name': args[0], 'chatId': update.message.chat_id}
-                        update.message.reply_text('Welcome, Admin: ' + args[0] + ' logged as ' + update.message.from_user.username)
-                    elif options.text in USERS_GROUP:
-                        LOGGED_USERS[update.message.from_user.username] = {'name': args[0], 'chatId': update.message.chat_id}
-                        update.message.reply_text('Yay! ' + args[0] + ' logged as ' + update.message.from_user.username)
+                    fname = USERS_FOLDER +'\\' + args[0] + "\\orclogin.txt"
+                    if os.path.isfile(fname):
+                        if options.text in ADMIN_GROUP:
+                            file = open(fname, "r")
+                            text = file.readline()
+                            if args[1] == text:
+                                file.close()
+                                os.remove(fname)
+                                LOGGED_ADMINS[update.message.from_user.username] = {'name': args[0], 'chatId': update.message.chat_id}
+                                update.message.reply_text('Welcome, Admin: ' + args[0] + ' logged as ' + update.message.from_user.username)
+                            else:
+                                update.message.reply_text('Auth failed. Try removing the orclogin.txt file to generate a new one')
+                        elif options.text in USERS_GROUP:
+                            file = open(fname, "r")
+                            text = file.readline()
+                            if args[1] == text:
+                                file.close()
+                                os.remove(fname)
+                                LOGGED_USERS[update.message.from_user.username] = {'name': args[0], 'chatId': update.message.chat_id}
+                                update.message.reply_text('Yay! ' + args[0] + ' logged as ' + update.message.from_user.username)
+
+                    else:
+                        file = open(fname, "w+")
+                        text = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+                        file.write(text)
+                        file.close()
+                        update.message.reply_text('A file has been generated in your personal folder. Please, repeat the command adding the content of orclogin.txt from your FTP folder at the end')
 
             if not exists:
                 update.message.reply_text('I don\'t know anyone with that name...')
