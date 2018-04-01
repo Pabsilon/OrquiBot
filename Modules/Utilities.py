@@ -1,4 +1,4 @@
-from Modules.Users import LOGGED_ADMINS
+from Modules.Users import LOGGED_ADMINS, LOGGED_USERS
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import logging
 
@@ -17,9 +17,17 @@ def sendMessage(bot,chatId,content):
 
 def broadcastAdmins(bot,content):
     logging.warning("Sending a message to all logged Admins: " + str(LOGGED_ADMINS.values()))
+    logging.warning(content)
     for admin in LOGGED_ADMINS.values():
         sendMessage(bot, admin.get('chatId'), content)
         print("Sending message to " + admin.get('name'))
+
+def broadcastUsers(bot, content):
+    logging.warning("Sending a message to all logged Users: " + str(LOGGED_USERS.values()))
+    logging.warning(content)
+    for user in LOGGED_USERS.values():
+        sendMessage(bot, user.get('chatId'), content)
+        print("Sending message to " + user.get('name'))
 
 def askAdminsYesOrNo(bot):
     for admin in LOGGED_ADMINS.values():

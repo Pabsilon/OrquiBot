@@ -71,13 +71,13 @@ def reboot(bot, update, args):
         try:
             if int(args[1]) > 4:
                 Utils.broadcastAdmins(bot, "The server will reboot in " + args[1] + " minutes. If you have second thoughts, or this was a mistake, use the command /server cancelreboot")
-                saveAdmins()
                 subprocess.call(["shutdown", "/r", "/t", str(int(args[1])*60)]) # Time has to be in seconds
+                Utils.broadcastUsers(bot, "Un parón no programado se va a efectuar en el servidor - los servicios no estarán disponibles durante este tiempo")
             elif int(args[1]) < 5: # For safety reasons, minimum reboot time (urgent) will be 5 minutes)
                 update.message.reply_text("Number of minutes for reboot has to be greater than one")
         except:
             Utils.broadcastAdmins(bot, "The server will reboot in 15 (FIFTEEN) minutes. If you have second thoughts, or this was a mistake, use the command /server cancelreboot")
-            saveAdmins()
+            Utils.broadcastUsers(bot, "El servidor va a entrar en mantenimiento programado en 15 minutos. Los servicios estarán caidos temporalmente")
             subprocess.call(["shutdown", "/r", "/t", "900"]) #15 minutes; the default for reboot.
 
 def cancelreboot(bot,update,args):
@@ -88,6 +88,7 @@ def cancelreboot(bot,update,args):
     else:
         subprocess.call(["shutdown", "/a"]) # Abort command
         Utils.broadcastAdmins(bot,"Armaggedon avoided!") # Notify Admins that the server won't reboot now.
+        Utils.broadcastUsers(bot, "Falsa alarma! El servidor sigue en marcha")
 
 def HWStatus(bot,update,args):
     logging.warning("Server HWStatus called by " + str(update.message.from_user.username))
